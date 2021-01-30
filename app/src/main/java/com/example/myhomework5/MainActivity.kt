@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         if (mAuth.currentUser != null){
-            gotoPerson()
+            gotoBMI()
         }
 
         setContentView(R.layout.activity_main)
@@ -41,11 +41,14 @@ class MainActivity : AppCompatActivity() {
             val email = emailInput.text.toString()
             val password = passwordInput.text.toString()
 
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {task ->
-                if (task.isSuccessful){
-                    gotoPerson()
-                } else{
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+            if (email.isEmpty() || password.isEmpty()){
+                Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show()
+            } else {
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {task ->
+                    if (task.isSuccessful){
+                        gotoBMI()
+                    }
+
                 }
             }
 
@@ -66,8 +69,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun gotoPerson() {
-        startActivity(Intent(this, PersonActivity::class.java))
+    private fun gotoBMI() {
+        startActivity(Intent(this, BMIActivity::class.java))
         finish()
     }
 
